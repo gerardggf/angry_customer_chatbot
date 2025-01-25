@@ -7,7 +7,6 @@ import 'core/constants/global.dart';
 import 'core/generated/translations.g.dart';
 import 'presentation/shared/widgets/error_info_widget.dart';
 import 'presentation/shared/widgets/loading_widget.dart';
-import 'presentation/modules/splash/splash_view.dart';
 import 'presentation/routes/router.dart';
 import 'presentation/shared/controllers/theme_controller.dart';
 import 'presentation/shared/theme.dart';
@@ -20,8 +19,8 @@ class AppStartupWidget extends ConsumerWidget {
     final appStartupState = ref.watch(appStartupProvider);
     return appStartupState.when(
       data: (_) => const ACCBApp(),
-      error: (e, __) => SplashView(
-        error: e.toString(),
+      error: (e, __) => ErrorInfoWidget(
+        text: e.toString(),
       ),
       loading: () => const LoadingWidget(),
     );

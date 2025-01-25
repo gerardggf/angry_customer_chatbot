@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   bool get fetching => throw _privateConstructorUsedError;
+  List<MessageModel> get messages => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -30,7 +31,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({bool fetching});
+  $Res call({bool fetching, List<MessageModel> messages});
 }
 
 /// @nodoc
@@ -49,12 +50,17 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? fetching = null,
+    Object? messages = null,
   }) {
     return _then(_value.copyWith(
       fetching: null == fetching
           ? _value.fetching
           : fetching // ignore: cast_nullable_to_non_nullable
               as bool,
+      messages: null == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<MessageModel>,
     ) as $Val);
   }
 }
@@ -67,7 +73,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool fetching});
+  $Res call({bool fetching, List<MessageModel> messages});
 }
 
 /// @nodoc
@@ -84,12 +90,17 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fetching = null,
+    Object? messages = null,
   }) {
     return _then(_$HomeStateImpl(
       fetching: null == fetching
           ? _value.fetching
           : fetching // ignore: cast_nullable_to_non_nullable
               as bool,
+      messages: null == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<MessageModel>,
     ));
   }
 }
@@ -97,15 +108,25 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateImpl implements _HomeState {
-  _$HomeStateImpl({this.fetching = false});
+  _$HomeStateImpl(
+      {this.fetching = false, final List<MessageModel> messages = const []})
+      : _messages = messages;
 
   @override
   @JsonKey()
   final bool fetching;
+  final List<MessageModel> _messages;
+  @override
+  @JsonKey()
+  List<MessageModel> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
 
   @override
   String toString() {
-    return 'HomeState(fetching: $fetching)';
+    return 'HomeState(fetching: $fetching, messages: $messages)';
   }
 
   @override
@@ -114,11 +135,13 @@ class _$HomeStateImpl implements _HomeState {
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
             (identical(other.fetching, fetching) ||
-                other.fetching == fetching));
+                other.fetching == fetching) &&
+            const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fetching);
+  int get hashCode => Object.hash(
+      runtimeType, fetching, const DeepCollectionEquality().hash(_messages));
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -130,10 +153,13 @@ class _$HomeStateImpl implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  factory _HomeState({final bool fetching}) = _$HomeStateImpl;
+  factory _HomeState({final bool fetching, final List<MessageModel> messages}) =
+      _$HomeStateImpl;
 
   @override
   bool get fetching;
+  @override
+  List<MessageModel> get messages;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

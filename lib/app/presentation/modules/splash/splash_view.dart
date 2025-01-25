@@ -27,7 +27,8 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    Assets.icon,
+                    Assets.iconLogo,
+                    errorBuilder: (_, __, ___) => const SizedBox(),
                   ),
                   30.h,
                   if (error != null)
