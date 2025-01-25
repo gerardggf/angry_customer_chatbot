@@ -22,8 +22,8 @@ dependencies:
   shared_preferences: ^2.3.5
   slang: ^4.4.1
   slang_flutter: ^4.4.0
-  flutter_dotenv: ^5.2.1
   dio: ^5.7.0
+  #flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:angry_customer_chatbot/app/core/generated/translations.g.dart';
 import 'package:angry_customer_chatbot/app/core/utils/typedefs.dart';
 import 'package:angry_customer_chatbot/app/data/services/ia_service.dart';
 
@@ -11,7 +12,34 @@ class MessagesRepositoryImpl implements MessagesRepository {
   final IAService iaService;
 
   @override
-  AsyncResult<MessageModel> sendMessageAndReceiveAnswer(String message) async {
-    return await iaService.sendMessageAndReceiveAnswer(message);
+  AsyncResult<MessageModel> sendMessageAndReceiveAnswer({
+    required String message,
+    required List<MessageModel> oldMessages,
+    AppLocale locale = AppLocale.es,
+  }) async {
+    final oldMessagesText = oldMessages.isNotEmpty
+        ? 'Please note the previous messages: ${oldMessages.map((e) {
+            return e.isMe ? 'User: ${e.text}' : 'Bot: ${e.text}';
+          }).join(', ')}'
+        : '';
+    final responseInstructions =
+        "You are an angry customer who has not received a food order yet. Answer briefly and always in ${getLanguageString(locale)}.$oldMessagesText";
+    return await iaService.sendMessageAndReceiveAnswer(
+      message: message,
+      responseInstructions: responseInstructions,
+    );
+  }
+
+  String getLanguageString(AppLocale locale) {
+    switch (locale) {
+      case AppLocale.en:
+        return 'English';
+      case AppLocale.es:
+        return 'Spanish';
+      case AppLocale.ca:
+        return 'Catalan';
+      default:
+        return 'English';
+    }
   }
 }

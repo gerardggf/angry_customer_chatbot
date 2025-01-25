@@ -1,3 +1,5 @@
+import 'package:angry_customer_chatbot/app/presentation/modules/home/widgets/message_bubble_widget.dart';
+import 'package:angry_customer_chatbot/app/presentation/shared/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,43 +24,52 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chat'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final doIt = await Dialogs.trueFalse(
+                context: context,
+                title: 'Are you sure?',
+                content: 'All messages will be deleted',
+              );
+              if (!doIt) return;
+              notifier.clearMessages();
+            },
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
           Expanded(
-              child: ListView.builder(
-            reverse: true,
-            itemCount: state.messages.length,
-            itemBuilder: (context, index) {
-              final message = state.messages[state.messages.length - 1 - index];
-              return Align(
-                alignment:
-                    message.isMe ? Alignment.centerRight : Alignment.centerLeft,
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: message.isMe
-                        ? Colors.teal.shade100
-                        : Colors.grey.shade300,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(8),
-                      topRight: const Radius.circular(8),
-                      bottomLeft:
-                          message.isMe ? const Radius.circular(8) : Radius.zero,
-                      bottomRight:
-                          message.isMe ? Radius.zero : const Radius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    message.text,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              reverse: true,
+              itemCount: state.messages.length,
+              itemBuilder: (context, index) {
+                final message =
+                    state.messages[state.messages.length - 1 - index];
+                return MessageBubbleWidget(
+                  message: message,
+                );
+              },
+            ),
+          ),
+          if (state.fetching)
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(
+                  Icons.more_horiz,
+                  size: 30,
+                  color: Colors.grey,
                 ),
-              );
-            },
-          )),
+              ),
+            ),
           Container(
             padding: const EdgeInsets.all(15),
             child: Row(
@@ -76,13 +87,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                 ),
                 IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: () {
-                      if (_textController.text.isNotEmpty) {
-                        notifier.sendMessage(_textController.text);
-                        _textController.clear();
-                      }
-                    }),
+                  icon: const Icon(Icons.send),
+                  onPressed: () {
+                    if (_textController.text.isNotEmpty) {
+                      notifier.sendMessage(_textController.text);
+                      _textController.clear();
+                    }
+                  },
+                ),
               ],
             ),
           ),

@@ -4,9 +4,9 @@ import 'package:angry_customer_chatbot/app/core/utils/typedefs.dart';
 import 'package:angry_customer_chatbot/app/domain/models/message_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/api_key.dart';
 import '../../core/providers.dart';
 import '../../core/utils/either/either.dart';
 
@@ -21,15 +21,21 @@ class IAService {
 
   final Dio dio;
 
-  final String baseUrl = Urls.baseUrl;
-  final String apiKey = dotenv.env['API_KEY'] ?? 'default_key';
+  final String url = Urls.promptEndpoint;
+  // final String apiKey = dotenv.env['API_KEY'] ?? 'default_key';
+  final String apiKey =
+      kApiKey; //API_KEY oculta. en proceso de pasarla a un .env
 
-  AsyncResult<MessageModel> sendMessageAndReceiveAnswer(
-    String message,
-  ) async {
+  AsyncResult<MessageModel> sendMessageAndReceiveAnswer({
+    required String message,
+    required String responseInstructions,
+  }) async {
     try {
+      if (kDebugMode) {
+        print(responseInstructions);
+      }
       final response = await dio.post(
-        '$baseUrl/v1/chat/completions',
+        url,
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -37,32 +43,30 @@ class IAService {
           },
         ),
         data: {
-          'model': 'deepseek-chat',
+          'model': 'llama-3.3-70b-versatile',
           "messages": [
             {
               "role": "system",
-              "content":
-                  "You are an angry customer who has not received a food order yet..",
+              "content": responseInstructions,
             },
             {
               "role": "user",
               "content": message,
             }
           ],
-          "stream": false
         },
       );
 
       if (response.statusCode == 200) {
         return Either.right(
           MessageModel(
-            text: response.data.toString(),
+            text: response.data['choices'][0]['message']['content'],
             isMe: false,
           ),
         );
       } else {
         return Either.left(
-          Failure('Error'),
+          Failure('Status code: ${response.statusCode}'),
         );
       }
     } catch (e) {

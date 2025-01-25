@@ -2,6 +2,8 @@
 
 Angry customr chatbot.
 
+Using Groq free LLM chat API
+
 ## Getting Started
 
 - flutter pub get

@@ -49,3 +49,5 @@ lib/app/core/generated
 
 #env
 .env
+
+lib/app/core/constants/api_key.dart

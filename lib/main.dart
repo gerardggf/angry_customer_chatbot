@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/core/generated/translations.g.dart';
@@ -9,14 +7,9 @@ import 'app/accb_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  LocaleSettings.useDeviceLocale();
-  try {
-    await dotenv.load(fileName: ".env");
-  } catch (e) {
-    if (kDebugMode) {
-      print('Error loading .env file: $e');
-    }
-  }
+  //await dotenv.load(fileName: ".env");
+  await LocaleSettings.useDeviceLocale();
+
   runApp(
     ProviderScope(
       child: TranslationProvider(

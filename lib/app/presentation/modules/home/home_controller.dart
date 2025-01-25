@@ -40,12 +40,18 @@ class HomeController extends StateNotifier<HomeState> {
     );
   }
 
+  void clearMessages() {
+    state = state.copyWith(messages: []);
+  }
+
   AsyncResult<MessageModel> sendMessage(String message) async {
     updateFetching(true);
 
     addMessage(message: message, isMe: true);
-    final result =
-        await messagesRepository.sendMessageAndReceiveAnswer(message);
+    final result = await messagesRepository.sendMessageAndReceiveAnswer(
+      message: message,
+      oldMessages: List.from(state.messages)..removeLast(),
+    );
     result.when(
       left: (failure) {
         addMessage(
@@ -55,7 +61,6 @@ class HomeController extends StateNotifier<HomeState> {
         );
       },
       right: (message) {
-        print(message.text);
         addMessage(
           message: message.text,
           isMe: false,
