@@ -1,7 +1,11 @@
+import 'package:angry_customer_chatbot/app/core/utils/extensions/num_to_sizedbox.dart';
 import 'package:angry_customer_chatbot/app/presentation/modules/home/widgets/message_bubble_widget.dart';
+import 'package:angry_customer_chatbot/app/presentation/modules/settings/settings_view.dart';
 import 'package:angry_customer_chatbot/app/presentation/shared/dialogs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'home_controller.dart';
 
@@ -16,6 +20,22 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   final TextEditingController _textController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(
+      () {},
+    );
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +45,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
       appBar: AppBar(
         title: const Text('Chat'),
         actions: [
+          IconButton(
+            onPressed: () {
+              context.pushNamed(SettingsView.routeName);
+            },
+            icon: const Icon(
+              Icons.settings,
+            ),
+          ),
           IconButton(
             onPressed: () async {
               final doIt = await Dialogs.trueFalse(
@@ -37,9 +65,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
             },
             icon: const Icon(
               Icons.delete,
-              color: Colors.black,
             ),
           ),
+          20.w,
         ],
       ),
       body: Column(
@@ -72,17 +100,29 @@ class _HomeViewState extends ConsumerState<HomeView> {
             ),
           Container(
             padding: const EdgeInsets.all(15),
+            color: Colors.black12,
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    onTapOutside: (_) {
-                      FocusScope.of(context).unfocus();
+                  child: KeyboardListener(
+                    onKeyEvent: (value) {
+                      if (value.logicalKey == LogicalKeyboardKey.enter) {
+                        if (_textController.text.isNotEmpty) {
+                          notifier.sendMessage(_textController.text);
+                          _textController.clear();
+                        }
+                      }
                     },
-                    controller: _textController,
-                    decoration: const InputDecoration(
-                      hintText: 'Escribe un mensaje...',
-                      border: InputBorder.none,
+                    focusNode: _focusNode,
+                    child: TextField(
+                      onTapOutside: (_) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      controller: _textController,
+                      decoration: const InputDecoration(
+                        hintText: 'Write a message...',
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),

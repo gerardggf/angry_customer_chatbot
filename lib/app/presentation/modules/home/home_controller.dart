@@ -1,3 +1,4 @@
+import 'package:angry_customer_chatbot/app/core/generated/translations.g.dart';
 import 'package:angry_customer_chatbot/app/core/utils/typedefs.dart';
 import 'package:angry_customer_chatbot/app/domain/models/message_model.dart';
 import 'package:angry_customer_chatbot/app/domain/repositories/messages_repository.dart';
@@ -21,6 +22,14 @@ class HomeController extends StateNotifier<HomeState> {
 
   void updateFetching(bool value) {
     state = state.copyWith(fetching: value);
+  }
+
+  void updateResponseInstructions(String value) {
+    state = state.copyWith(responseInstructions: value);
+  }
+
+  void updateResponseLanguage(AppLocale value) {
+    state = state.copyWith(responseLocale: value);
   }
 
   void addMessage({
@@ -51,6 +60,8 @@ class HomeController extends StateNotifier<HomeState> {
     final result = await messagesRepository.sendMessageAndReceiveAnswer(
       message: message,
       oldMessages: List.from(state.messages)..removeLast(),
+      responseInstructions: state.responseInstructions,
+      locale: state.responseLocale,
     );
     result.when(
       left: (failure) {

@@ -7,7 +7,7 @@ class AppColors {
 
   // Light mode ------------------------------------------------
 
-  static const Color light = Colors.orange;
+  static const Color light = Colors.black;
   static const Color lightSec = Colors.black;
   static const Color lightBg = Colors.white;
 

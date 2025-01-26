@@ -16,6 +16,7 @@ abstract class MessagesRepository {
   AsyncResult<MessageModel> sendMessageAndReceiveAnswer({
     required String message,
     required List<MessageModel> oldMessages,
-    AppLocale locale,
+    required String responseInstructions,
+    AppLocale locale = AppLocale.es,
   });
 }

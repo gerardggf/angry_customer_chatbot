@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   bool get fetching => throw _privateConstructorUsedError;
   List<MessageModel> get messages => throw _privateConstructorUsedError;
+  String get responseInstructions => throw _privateConstructorUsedError;
+  AppLocale get responseLocale => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +33,11 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({bool fetching, List<MessageModel> messages});
+  $Res call(
+      {bool fetching,
+      List<MessageModel> messages,
+      String responseInstructions,
+      AppLocale responseLocale});
 }
 
 /// @nodoc
@@ -51,6 +57,8 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? fetching = null,
     Object? messages = null,
+    Object? responseInstructions = null,
+    Object? responseLocale = null,
   }) {
     return _then(_value.copyWith(
       fetching: null == fetching
@@ -61,6 +69,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<MessageModel>,
+      responseInstructions: null == responseInstructions
+          ? _value.responseInstructions
+          : responseInstructions // ignore: cast_nullable_to_non_nullable
+              as String,
+      responseLocale: null == responseLocale
+          ? _value.responseLocale
+          : responseLocale // ignore: cast_nullable_to_non_nullable
+              as AppLocale,
     ) as $Val);
   }
 }
@@ -73,7 +89,11 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool fetching, List<MessageModel> messages});
+  $Res call(
+      {bool fetching,
+      List<MessageModel> messages,
+      String responseInstructions,
+      AppLocale responseLocale});
 }
 
 /// @nodoc
@@ -91,6 +111,8 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   $Res call({
     Object? fetching = null,
     Object? messages = null,
+    Object? responseInstructions = null,
+    Object? responseLocale = null,
   }) {
     return _then(_$HomeStateImpl(
       fetching: null == fetching
@@ -101,6 +123,14 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<MessageModel>,
+      responseInstructions: null == responseInstructions
+          ? _value.responseInstructions
+          : responseInstructions // ignore: cast_nullable_to_non_nullable
+              as String,
+      responseLocale: null == responseLocale
+          ? _value.responseLocale
+          : responseLocale // ignore: cast_nullable_to_non_nullable
+              as AppLocale,
     ));
   }
 }
@@ -109,7 +139,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 class _$HomeStateImpl implements _HomeState {
   _$HomeStateImpl(
-      {this.fetching = false, final List<MessageModel> messages = const []})
+      {this.fetching = false,
+      final List<MessageModel> messages = const [],
+      this.responseInstructions = Global.responseInstructions,
+      this.responseLocale = AppLocale.es})
       : _messages = messages;
 
   @override
@@ -125,8 +158,15 @@ class _$HomeStateImpl implements _HomeState {
   }
 
   @override
+  @JsonKey()
+  final String responseInstructions;
+  @override
+  @JsonKey()
+  final AppLocale responseLocale;
+
+  @override
   String toString() {
-    return 'HomeState(fetching: $fetching, messages: $messages)';
+    return 'HomeState(fetching: $fetching, messages: $messages, responseInstructions: $responseInstructions, responseLocale: $responseLocale)';
   }
 
   @override
@@ -136,12 +176,20 @@ class _$HomeStateImpl implements _HomeState {
             other is _$HomeStateImpl &&
             (identical(other.fetching, fetching) ||
                 other.fetching == fetching) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.responseInstructions, responseInstructions) ||
+                other.responseInstructions == responseInstructions) &&
+            (identical(other.responseLocale, responseLocale) ||
+                other.responseLocale == responseLocale));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, fetching, const DeepCollectionEquality().hash(_messages));
+      runtimeType,
+      fetching,
+      const DeepCollectionEquality().hash(_messages),
+      responseInstructions,
+      responseLocale);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -153,13 +201,20 @@ class _$HomeStateImpl implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  factory _HomeState({final bool fetching, final List<MessageModel> messages}) =
-      _$HomeStateImpl;
+  factory _HomeState(
+      {final bool fetching,
+      final List<MessageModel> messages,
+      final String responseInstructions,
+      final AppLocale responseLocale}) = _$HomeStateImpl;
 
   @override
   bool get fetching;
   @override
   List<MessageModel> get messages;
+  @override
+  String get responseInstructions;
+  @override
+  AppLocale get responseLocale;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
