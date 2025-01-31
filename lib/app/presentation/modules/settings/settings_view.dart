@@ -32,7 +32,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         final state = ref.read(homeControllerProvider);
-        _localeController.text = mapStringFromLocale(state.responseLocale);
+        _localeController.text = getStringFromLocale(state.responseLocale);
         _roleController.text = state.responseInstructions.isEmpty
             ? Global.responseInstructions
             : state.responseInstructions;
@@ -58,7 +58,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
           IconButton(
             onPressed: () {
               notifier.updateResponseLanguage(
-                  mapLocaleFromString(_localeController.text));
+                  getLocaleFromString(_localeController.text));
               notifier.updateResponseInstructions(_roleController.text);
               context.pop();
             },
@@ -91,7 +91,7 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                 final locale =
                     await Dialogs.localeModalBottomSheet(context: context);
                 if (locale == null) return;
-                _localeController.text = mapStringFromLocale(locale);
+                _localeController.text = getStringFromLocale(locale);
               },
               child: AbsorbPointer(
                 child: TextField(

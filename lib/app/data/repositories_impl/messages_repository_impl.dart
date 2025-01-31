@@ -3,6 +3,7 @@ import 'package:angry_customer_chatbot/app/core/utils/typedefs.dart';
 import 'package:angry_customer_chatbot/app/data/services/ia_service.dart';
 
 import 'package:angry_customer_chatbot/app/domain/models/message_model.dart';
+import 'package:angry_customer_chatbot/app/presentation/shared/utils.dart';
 
 import '../../domain/repositories/messages_repository.dart';
 
@@ -28,21 +29,10 @@ class MessagesRepositoryImpl implements MessagesRepository {
         ? ' Please take into account the following information when answering: \'$fileDataString\'.'
         : '';
     final instructions =
-        "$responseInstructions. Answer briefly and always in ${getLanguageString(locale)}.$fileDataText$oldMessagesText";
+        "$responseInstructions. Answer briefly and always in ${getStringFromLocale(locale)}.$fileDataText$oldMessagesText";
     return await iaService.sendPromptAndReceiveAnswer(
       message: message,
       responseInstructions: instructions,
     );
-  }
-
-  String getLanguageString(AppLocale locale) {
-    switch (locale) {
-      case AppLocale.es:
-        return 'Spanish';
-      case AppLocale.ca:
-        return 'Catalan';
-      default:
-        return 'English';
-    }
   }
 }

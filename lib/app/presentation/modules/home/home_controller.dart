@@ -25,7 +25,7 @@ class HomeController extends StateNotifier<HomeState> {
       fileDataString: prefsRepository.fileDataString,
       responseInstructions: prefsRepository.responseInstructions ?? '',
       responseLocale:
-          mapLocaleFromString(prefsRepository.responseLanguage ?? ''),
+          getLocaleFromString(prefsRepository.responseLanguage ?? ''),
     );
   }
 
@@ -48,7 +48,7 @@ class HomeController extends StateNotifier<HomeState> {
 
   void updateResponseLanguage(AppLocale value) {
     state = state.copyWith(responseLocale: value);
-    prefsRepository.setResponseLanguage(mapStringFromLocale(value));
+    prefsRepository.setResponseLanguage(getStringFromLocale(value));
   }
 
   void addMessage({

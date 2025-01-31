@@ -2,7 +2,7 @@
 
 Angry customr chatbot.
 
-Using Groq free LLM chat API
+This project enables users to enhance their soft skills through an open-source AI-driven platform that generates customizable responses based on parameterized prompts. 
 
 ## Getting Started
 

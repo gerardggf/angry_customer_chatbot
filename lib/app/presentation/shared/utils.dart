@@ -1,6 +1,6 @@
 import 'package:angry_customer_chatbot/app/core/generated/translations.g.dart';
 
-AppLocale mapLocaleFromString(String localeString) {
+AppLocale getLocaleFromString(String localeString) {
   switch (localeString) {
     case "English":
       return AppLocale.en;
@@ -13,7 +13,7 @@ AppLocale mapLocaleFromString(String localeString) {
   }
 }
 
-String mapStringFromLocale(AppLocale locale) {
+String getStringFromLocale(AppLocale locale) {
   switch (locale) {
     case AppLocale.es:
       return "Español";
