@@ -23,6 +23,7 @@ dependencies:
   slang: ^4.4.1
   slang_flutter: ^4.4.0
   dio: ^5.7.0
+  file_picker: ^8.3.1
   #flutter_dotenv: ^5.1.0
 
 dev_dependencies:

@@ -19,4 +19,40 @@ class PrefsRepositoryImpl implements PrefsRepository {
       value,
     );
   }
+
+  @override
+  String? get fileDataString =>
+      _sharedPrefs.getString(PrefsEnum.fileDataString.name);
+
+  @override
+  Future<bool> setFileDataString(String? value) async {
+    return await _sharedPrefs.setString(
+      PrefsEnum.fileDataString.name,
+      value ?? '',
+    );
+  }
+
+  @override
+  String? get responseInstructions =>
+      _sharedPrefs.getString(PrefsEnum.responseInstructions.name);
+
+  @override
+  Future<bool> setResponseInstructions(String? value) async {
+    return await _sharedPrefs.setString(
+      PrefsEnum.responseInstructions.name,
+      value ?? '',
+    );
+  }
+
+  @override
+  String? get responseLanguage =>
+      _sharedPrefs.getString(PrefsEnum.responseLanguage.name);
+
+  @override
+  Future<bool> setResponseLanguage(String? value) async {
+    return await _sharedPrefs.setString(
+      PrefsEnum.responseLanguage.name,
+      value ?? '',
+    );
+  }
 }

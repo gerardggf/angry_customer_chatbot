@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:angry_customer_chatbot/app/core/constants/global.dart';
-import 'package:angry_customer_chatbot/app/core/generated/translations.g.dart';
 import 'package:angry_customer_chatbot/app/core/utils/extensions/num_to_sizedbox.dart';
 import 'package:angry_customer_chatbot/app/presentation/shared/dialogs.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../shared/utils.dart';
 import '../home/home_controller.dart';
@@ -24,8 +29,15 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
   @override
   void initState() {
     super.initState();
-    _roleController.text = Global.responseInstructions;
-    _localeController.text = mapStringFromLocale(AppLocale.es);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        final state = ref.read(homeControllerProvider);
+        _localeController.text = mapStringFromLocale(state.responseLocale);
+        _roleController.text = state.responseInstructions.isEmpty
+            ? Global.responseInstructions
+            : state.responseInstructions;
+      },
+    );
   }
 
   @override
@@ -37,11 +49,26 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(homeControllerProvider);
+    final state = ref.watch(homeControllerProvider);
     final notifier = ref.read(homeControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              notifier.updateResponseLanguage(
+                  mapLocaleFromString(_localeController.text));
+              notifier.updateResponseInstructions(_roleController.text);
+              context.pop();
+            },
+            icon: const Icon(
+              Icons.save,
+              size: 30,
+            ),
+          ),
+          10.w,
+        ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -50,13 +77,15 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              textCapitalization: TextCapitalization.sentences,
               controller: _roleController,
               decoration: const InputDecoration(
                 hintText: '...',
                 labelText: 'Chatbot role',
               ),
+              maxLines: 3,
             ),
-            20.h,
+            30.h,
             GestureDetector(
               onTap: () async {
                 final locale =
@@ -74,15 +103,61 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                 ),
               ),
             ),
-            20.h,
-            ElevatedButton(
-              onPressed: () {
-                notifier.updateResponseLanguage(
-                    mapLocaleFromString(_localeController.text));
-                notifier.updateResponseInstructions(_roleController.text);
-              },
-              child: const Text('Save'),
+            30.h,
+            Text(
+              'Attach file (${Global.allowedFileExtensions.map((e) => '.$e').join(', ')})',
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 12,
+              ),
             ),
+            10.h,
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.file_copy),
+                  onPressed: () async {
+                    final filePickerResult =
+                        await FilePicker.platform.pickFiles(
+                      allowedExtensions: Global.allowedFileExtensions,
+                      type: FileType.custom,
+                      withData: true,
+                    );
+                    if (filePickerResult == null) return;
+                    final file = filePickerResult.files.single;
+                    String? result;
+                    if (kIsWeb) {
+                      if (file.bytes == null) return;
+                      result = utf8.decode(file.bytes!);
+                    } else {
+                      if (file.path == null) return;
+                      result = await File(file.path!).readAsString();
+                    }
+                    notifier.updateFileDataString(result);
+                  },
+                  label: Text(
+                    state.fileDataString == null &&
+                            state.fileDataString!.isNotEmpty
+                        ? 'Select a document'
+                        : 'Replace document',
+                  ),
+                ),
+                10.w,
+                if (state.fileDataString != null &&
+                    state.fileDataString!.isNotEmpty)
+                  IconButton(
+                    icon: const Icon(
+                      Icons.clear,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      notifier.updateFileDataString(null);
+                    },
+                  ),
+              ],
+            ),
+            10.h,
+            Text(state.fileDataString ?? ''),
           ],
         ),
       ),

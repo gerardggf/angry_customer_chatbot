@@ -19,6 +19,7 @@ mixin _$HomeState {
   bool get fetching => throw _privateConstructorUsedError;
   List<MessageModel> get messages => throw _privateConstructorUsedError;
   String get responseInstructions => throw _privateConstructorUsedError;
+  String? get fileDataString => throw _privateConstructorUsedError;
   AppLocale get responseLocale => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -37,6 +38,7 @@ abstract class $HomeStateCopyWith<$Res> {
       {bool fetching,
       List<MessageModel> messages,
       String responseInstructions,
+      String? fileDataString,
       AppLocale responseLocale});
 }
 
@@ -58,6 +60,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? fetching = null,
     Object? messages = null,
     Object? responseInstructions = null,
+    Object? fileDataString = freezed,
     Object? responseLocale = null,
   }) {
     return _then(_value.copyWith(
@@ -73,6 +76,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.responseInstructions
           : responseInstructions // ignore: cast_nullable_to_non_nullable
               as String,
+      fileDataString: freezed == fileDataString
+          ? _value.fileDataString
+          : fileDataString // ignore: cast_nullable_to_non_nullable
+              as String?,
       responseLocale: null == responseLocale
           ? _value.responseLocale
           : responseLocale // ignore: cast_nullable_to_non_nullable
@@ -93,6 +100,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       {bool fetching,
       List<MessageModel> messages,
       String responseInstructions,
+      String? fileDataString,
       AppLocale responseLocale});
 }
 
@@ -112,6 +120,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? fetching = null,
     Object? messages = null,
     Object? responseInstructions = null,
+    Object? fileDataString = freezed,
     Object? responseLocale = null,
   }) {
     return _then(_$HomeStateImpl(
@@ -127,6 +136,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.responseInstructions
           : responseInstructions // ignore: cast_nullable_to_non_nullable
               as String,
+      fileDataString: freezed == fileDataString
+          ? _value.fileDataString
+          : fileDataString // ignore: cast_nullable_to_non_nullable
+              as String?,
       responseLocale: null == responseLocale
           ? _value.responseLocale
           : responseLocale // ignore: cast_nullable_to_non_nullable
@@ -142,7 +155,8 @@ class _$HomeStateImpl implements _HomeState {
       {this.fetching = false,
       final List<MessageModel> messages = const [],
       this.responseInstructions = Global.responseInstructions,
-      this.responseLocale = AppLocale.es})
+      this.fileDataString = null,
+      this.responseLocale = AppLocale.en})
       : _messages = messages;
 
   @override
@@ -162,11 +176,14 @@ class _$HomeStateImpl implements _HomeState {
   final String responseInstructions;
   @override
   @JsonKey()
+  final String? fileDataString;
+  @override
+  @JsonKey()
   final AppLocale responseLocale;
 
   @override
   String toString() {
-    return 'HomeState(fetching: $fetching, messages: $messages, responseInstructions: $responseInstructions, responseLocale: $responseLocale)';
+    return 'HomeState(fetching: $fetching, messages: $messages, responseInstructions: $responseInstructions, fileDataString: $fileDataString, responseLocale: $responseLocale)';
   }
 
   @override
@@ -179,6 +196,8 @@ class _$HomeStateImpl implements _HomeState {
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.responseInstructions, responseInstructions) ||
                 other.responseInstructions == responseInstructions) &&
+            (identical(other.fileDataString, fileDataString) ||
+                other.fileDataString == fileDataString) &&
             (identical(other.responseLocale, responseLocale) ||
                 other.responseLocale == responseLocale));
   }
@@ -189,6 +208,7 @@ class _$HomeStateImpl implements _HomeState {
       fetching,
       const DeepCollectionEquality().hash(_messages),
       responseInstructions,
+      fileDataString,
       responseLocale);
 
   /// Create a copy of HomeState
@@ -205,6 +225,7 @@ abstract class _HomeState implements HomeState {
       {final bool fetching,
       final List<MessageModel> messages,
       final String responseInstructions,
+      final String? fileDataString,
       final AppLocale responseLocale}) = _$HomeStateImpl;
 
   @override
@@ -213,6 +234,8 @@ abstract class _HomeState implements HomeState {
   List<MessageModel> get messages;
   @override
   String get responseInstructions;
+  @override
+  String? get fileDataString;
   @override
   AppLocale get responseLocale;
 

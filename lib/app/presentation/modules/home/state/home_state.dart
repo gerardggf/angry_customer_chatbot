@@ -11,6 +11,7 @@ class HomeState with _$HomeState {
     @Default(false) bool fetching,
     @Default([]) List<MessageModel> messages,
     @Default(Global.responseInstructions) String responseInstructions,
-    @Default(AppLocale.es) AppLocale responseLocale,
+    @Default(null) String? fileDataString,
+    @Default(AppLocale.en) AppLocale responseLocale,
   }) = _HomeState;
 }

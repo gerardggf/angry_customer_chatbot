@@ -105,6 +105,7 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        iconColor: AppColors.light,
         backgroundColor: AppColors.light,
         foregroundColor: AppColors.lightBg,
         textStyle: const TextStyle(
@@ -220,7 +221,7 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(backgroundColor: AppColors.darkBg),
     scaffoldBackgroundColor: AppColors.darkBg,
     appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(color: AppColors.dark),
+      iconTheme: IconThemeData(color: AppColors.darkSec),
       backgroundColor: AppColors.darkBg,
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.bold,
@@ -415,6 +416,7 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        iconColor: AppColors.dark,
         backgroundColor: AppColors.darkSec,
         foregroundColor: AppColors.dark,
         textStyle: const TextStyle(

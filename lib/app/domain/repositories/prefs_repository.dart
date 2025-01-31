@@ -12,4 +12,13 @@ final prefsRepoProvider = Provider<PrefsRepository>(
 abstract class PrefsRepository {
   bool get isDarkMode;
   Future<bool> setThemeMode(bool isDarkMode);
+
+  String? get fileDataString;
+  Future<bool> setFileDataString(String? fileDataString);
+
+  String? get responseInstructions;
+  Future<bool> setResponseInstructions(String? responseInstructions);
+
+  String? get responseLanguage;
+  Future<bool> setResponseLanguage(String? responseLanguage);
 }

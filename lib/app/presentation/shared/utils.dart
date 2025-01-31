@@ -15,8 +15,6 @@ AppLocale mapLocaleFromString(String localeString) {
 
 String mapStringFromLocale(AppLocale locale) {
   switch (locale) {
-    case AppLocale.en:
-      return "English";
     case AppLocale.es:
       return "Español";
     case AppLocale.ca:

@@ -1,6 +1,8 @@
 import 'package:angry_customer_chatbot/app/core/utils/extensions/num_to_sizedbox.dart';
+import 'package:angry_customer_chatbot/app/core/utils/extensions/theme_mode_extension.dart';
 import 'package:angry_customer_chatbot/app/presentation/modules/home/widgets/message_bubble_widget.dart';
 import 'package:angry_customer_chatbot/app/presentation/modules/settings/settings_view.dart';
+import 'package:angry_customer_chatbot/app/presentation/shared/controllers/theme_controller.dart';
 import 'package:angry_customer_chatbot/app/presentation/shared/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,10 +43,29 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final state = ref.watch(homeControllerProvider);
     final notifier = ref.read(homeControllerProvider.notifier);
+    ref.listen(
+      homeControllerProvider,
+      (previous, next) {
+        if (previous == null) return;
+        if (next.responseInstructions != previous.responseInstructions) {
+          Dialogs.snackBar(context: context, text: 'Chatbot role changed');
+        }
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chat'),
         actions: [
+          IconButton(
+            onPressed: () {
+              ref
+                  .read(themeControllerProvider.notifier)
+                  .updateTheme(!context.isDarkMode);
+            },
+            icon: Icon(
+              context.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+            ),
+          ),
           IconButton(
             onPressed: () {
               context.pushNamed(SettingsView.routeName);
@@ -76,6 +97,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               reverse: true,
+              padding: const EdgeInsets.only(bottom: 20),
               itemCount: state.messages.length,
               itemBuilder: (context, index) {
                 final message =

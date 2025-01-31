@@ -13,10 +13,11 @@ final messagesRepoProvider = Provider<MessagesRepository>(
 );
 
 abstract class MessagesRepository {
-  AsyncResult<MessageModel> sendMessageAndReceiveAnswer({
+  AsyncResult<MessageModel> sendPromptAndReceiveAnswer({
     required String message,
     required List<MessageModel> oldMessages,
     required String responseInstructions,
+    String? fileDataString,
     AppLocale locale = AppLocale.es,
   });
 }

@@ -23,10 +23,11 @@ class IAService {
 
   final String url = Urls.promptEndpoint;
   // final String apiKey = dotenv.env['API_KEY'] ?? 'default_key';
-  final String apiKey =
-      kApiKey; //API_KEY oculta. en proceso de pasarla a un .env
+  ///API_KEY hidden. WIP to use .env.
+  ///Get an API key from https://console.groq.com/keys
+  final String apiKey = kApiKey;
 
-  AsyncResult<MessageModel> sendMessageAndReceiveAnswer({
+  AsyncResult<MessageModel> sendPromptAndReceiveAnswer({
     required String message,
     required String responseInstructions,
   }) async {

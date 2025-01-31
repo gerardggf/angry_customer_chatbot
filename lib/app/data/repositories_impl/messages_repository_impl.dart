@@ -12,20 +12,24 @@ class MessagesRepositoryImpl implements MessagesRepository {
   final IAService iaService;
 
   @override
-  AsyncResult<MessageModel> sendMessageAndReceiveAnswer({
+  AsyncResult<MessageModel> sendPromptAndReceiveAnswer({
     required String message,
     required List<MessageModel> oldMessages,
     required String responseInstructions,
     AppLocale locale = AppLocale.es,
+    String? fileDataString,
   }) async {
     final oldMessagesText = oldMessages.isNotEmpty
-        ? 'Please note the previous messages: ${oldMessages.map((e) {
+        ? ' Please note the previous messages: ${oldMessages.map((e) {
             return e.isMe ? 'User: ${e.text}' : 'Bot: ${e.text}';
-          }).join(', ')}'
+          }).join(', ')}.'
+        : '';
+    final fileDataText = fileDataString != null
+        ? ' Please take into account the following information when answering: \'$fileDataString\'.'
         : '';
     final instructions =
-        "$responseInstructions. Answer briefly and always in ${getLanguageString(locale)}.$oldMessagesText";
-    return await iaService.sendMessageAndReceiveAnswer(
+        "$responseInstructions. Answer briefly and always in ${getLanguageString(locale)}.$fileDataText$oldMessagesText";
+    return await iaService.sendPromptAndReceiveAnswer(
       message: message,
       responseInstructions: instructions,
     );
@@ -33,8 +37,6 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   String getLanguageString(AppLocale locale) {
     switch (locale) {
-      case AppLocale.en:
-        return 'English';
       case AppLocale.es:
         return 'Spanish';
       case AppLocale.ca:
