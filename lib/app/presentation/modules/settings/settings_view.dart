@@ -136,10 +136,10 @@ class _SettingsViewState extends ConsumerState<SettingsView> {
                     notifier.updateFileDataString(result);
                   },
                   label: Text(
-                    state.fileDataString == null &&
+                    state.fileDataString != null &&
                             state.fileDataString!.isNotEmpty
-                        ? 'Select a document'
-                        : 'Replace document',
+                        ? 'Replace document'
+                        : 'Select a document',
                   ),
                 ),
                 10.w,
