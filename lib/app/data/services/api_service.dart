@@ -10,21 +10,18 @@ import '../../core/constants/api_key.dart';
 import '../../core/providers.dart';
 import '../../core/utils/either/either.dart';
 
-final iaServiceProvider = Provider<IAService>(
-  (ref) => IAService(
+final apiServiceProvider = Provider<ApiService>(
+  (ref) => ApiService(
     ref.read(dioProvider),
   ),
 );
 
-class IAService {
-  IAService(this.dio);
+class ApiService {
+  ApiService(this.dio);
 
   final Dio dio;
 
   final String url = Urls.promptEndpoint;
-  // final String apiKey = dotenv.env['API_KEY'] ?? 'default_key';
-  ///API_KEY hidden. WIP to use .env.
-  ///Get an API key from https://console.groq.com/keys
   final String apiKey = kApiKey;
 
   AsyncResult<MessageModel> sendPromptAndReceiveAnswer({

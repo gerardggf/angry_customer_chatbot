@@ -1,5 +1,5 @@
 import 'package:angry_customer_chatbot/app/core/utils/typedefs.dart';
-import 'package:angry_customer_chatbot/app/data/services/ia_service.dart';
+import 'package:angry_customer_chatbot/app/data/services/api_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/generated/translations.g.dart';
@@ -8,7 +8,7 @@ import '../models/message_model.dart';
 
 final messagesRepoProvider = Provider<MessagesRepository>(
   (ref) => MessagesRepositoryImpl(
-    ref.read(iaServiceProvider),
+    ref.read(apiServiceProvider),
   ),
 );
 
